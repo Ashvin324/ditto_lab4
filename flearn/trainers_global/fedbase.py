@@ -250,7 +250,7 @@ class BaseFedarated(object):
         for i in range(len(parameters)):
             tmp = process_grad(parameters[i])  # 1-D array of the model updates
             scale = np.linalg.norm(tmp)
-            tmp = tmp / scale  # server first normalizes the gradients
+            tmp = tmp / scale  # w first normalizes the gradients
             flattened_grads.append(tmp) # flattened_grads used for calculating the lambda for aggregation
             for layer in range(len(parameters[i])):
                 parameters[i][layer] = parameters[i][layer] / scale 
