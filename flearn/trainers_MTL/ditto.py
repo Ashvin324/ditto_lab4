@@ -58,7 +58,8 @@ class Server(BaseFedarated):
             else:
                 batches[c] = gen_batch(c.train_data, self.batch_size, self.num_rounds * self.local_iters)
 
-
+        ditto_accuracies=[]
+        ditto_var=[]
         for i in range(self.num_rounds + 1):
             if i % self.eval_every == 0 and i > 0:
                 tmp_models = []
@@ -70,10 +71,12 @@ class Server(BaseFedarated):
                 num_test, num_correct_test, _ = self.test(tmp_models)
                 tqdm.write('At round {} training accu: {}, loss: {}'.format(i, np.sum(num_correct_train) * 1.0 / np.sum(num_train), avg_train_loss))
                 tqdm.write('At round {} test accu: {}'.format(i, np.sum(num_correct_test) * 1.0 / np.sum(num_test)))
+                ditto_accuracies.append(np.sum(num_correct_test) * 1.0 / np.sum(num_test))
                 non_corrupt_id = np.setdiff1d(range(len(self.clients)), corrupt_id)
                 tqdm.write('At round {} malicious test accu: {}'.format(i, np.sum(num_correct_test[corrupt_id]) * 1.0 / np.sum(num_test[corrupt_id])))
                 tqdm.write('At round {} benign test accu: {}'.format(i, np.sum(num_correct_test[non_corrupt_id]) * 1.0 / np.sum(num_test[non_corrupt_id])))
                 print("variance of the performance: ", np.var(num_correct_test[non_corrupt_id] / num_test[non_corrupt_id]))
+                ditto_var.append(np.var(num_correct_test[non_corrupt_id] / num_test[non_corrupt_id]))
 
 
             # weighted sampling
@@ -167,4 +170,6 @@ class Server(BaseFedarated):
             # update the global model
             for layer in range(len(avg_updates)):
                 self.global_model[layer] += avg_updates[layer]
+        np.savetxt('ditto_acc'+str(int(self.lam*10))+'.txt',ditto_accuracies)
+        np.savetxt('ditto_var'+str(int(self.lam*10))+'.txt',ditto_var)
 
