@@ -34,7 +34,8 @@ class Server(BaseFedarated):
             else:
                 batches[c] = gen_batch(c.train_data, self.batch_size, self.num_rounds * self.local_iters + 300)
 
-
+        skl_accuracies=[]
+        skl_var=[]
         for i in range(self.num_rounds + 1):
             if i % self.eval_every == 0 and i > 0:
 
@@ -46,6 +47,7 @@ class Server(BaseFedarated):
                 tqdm.write('At round {} training accu: {}, loss: {}'.format(i, np.sum(num_correct_train) * 1.0 / np.sum(
                     num_train), avg_loss))
                 tqdm.write('At round {} test accu: {}'.format(i, np.sum(num_correct_test) * 1.0 / np.sum(num_test)))
+                skl_accuracies.append(np.sum(num_correct_test) * 1.0 / np.sum(num_test))
                 non_corrupt_id = np.setdiff1d(range(len(self.clients)), corrupt_id)
                 tqdm.write('At round {} malicious test accu: {}'.format(i, np.sum(
                     num_correct_test[corrupt_id]) * 1.0 / np.sum(num_test[corrupt_id])))
@@ -53,6 +55,7 @@ class Server(BaseFedarated):
                     num_correct_test[non_corrupt_id]) * 1.0 / np.sum(num_test[non_corrupt_id])))
                 print("variance of the performance: ",
                       np.var(num_correct_test[non_corrupt_id] / num_test[non_corrupt_id]))
+                skl_var.append(np.var(num_correct_test[non_corrupt_id] / num_test[non_corrupt_id]))
 
             # weighted sampling
             indices, selected_clients = self.select_clients(round=i, corrupt_id=corrupt_id, num_clients=self.clients_per_round)
@@ -128,6 +131,8 @@ class Server(BaseFedarated):
             after_test_accu[non_corrupt_id]) * 1.0 / np.sum(test_samples[non_corrupt_id])))
         print("variance of the performance: ",
               np.var(after_test_accu[non_corrupt_id] / test_samples[non_corrupt_id]))
+        np.savetxt('skl_acc.txt',skl_accuracies)
+        np.savetxt('skl_var.txt',skl_var)
 
 
 
