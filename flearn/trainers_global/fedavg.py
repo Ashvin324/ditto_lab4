@@ -60,6 +60,7 @@ class Server(BaseFedarated):
                 batches[c] = gen_batch(c.train_data, self.batch_size, self.num_rounds * self.local_iters)
                 
         test_accuracies=[]
+        test_var=[]
         for i in range(self.num_rounds+1):
             if i % self.eval_every == 0:
                 num_test, num_correct_test, test_loss_vector = self.test()  # have set the latest model for all clients
@@ -78,6 +79,8 @@ class Server(BaseFedarated):
                 tqdm.write('At round {} benign test accu: {}'.format(i, np.sum(num_correct_test[non_corrupt_id]) * 1.0 / np.sum(num_test[non_corrupt_id])))
                 tqdm.write('At round {} variance: {}'.format(i, np.var(
                     num_correct_test[non_corrupt_id] * 1.0 / num_test[non_corrupt_id])))
+                test_var.append(np.var(
+                    num_correct_test[non_corrupt_id] * 1.0 / num_test[non_corrupt_id]))
             
             indices, selected_clients = self.select_clients(round=i, corrupt_id=corrupt_id, num_clients=self.clients_per_round)
 
@@ -140,7 +143,8 @@ class Server(BaseFedarated):
                     overall_updates = self.simple_average(csolns)
 
             self.latest_model = [(u + v) for u, v in zip(self.latest_model, overall_updates)]
-        np.savetxt('fedavg_test_acc.txt',test_accuracies)
+        np.savetxt('fedavg_acc'+str(self.clients_per_round)+'.txt',test_accuracies)
+        np.savetxt('fedavg_var'+str(self.clients_per_round)+'.txt',test_var)
 
 
 
