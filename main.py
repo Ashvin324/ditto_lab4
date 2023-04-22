@@ -7,7 +7,7 @@ import tensorflow as tf
 from flearn.utils.model_utils import read_data
 
 # GLOBAL PARAMETERS
-OPTIMIZERS = ['fedsgd', 'fedavg', 'finetuning',
+OPTIMIZERS = ['Necrozma', 'fedsgd', 'fedavg', 'finetuning',
               'l2sgd', 'ditto', 'ewc', 'apfl', 'mapper', 'kl', 'meta']
 DATASETS = ['vehicle', 'femnist', 'fmnist', 'celeba']   # fmnist: fashion mnist 
 
