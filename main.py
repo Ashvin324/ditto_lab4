@@ -7,7 +7,7 @@ import tensorflow as tf
 from flearn.utils.model_utils import read_data
 
 # GLOBAL PARAMETERS
-OPTIMIZERS = ['Necrozma', 'fedsgd', 'fedavg', 'finetuning',
+OPTIMIZERS = ['Necrozma','fedsgd', 'fedavg', 'finetuning',
               'l2sgd', 'ditto', 'ewc', 'apfl', 'mapper', 'kl', 'meta']
 DATASETS = ['vehicle', 'femnist', 'fmnist', 'celeba']   # fmnist: fashion mnist 
 
@@ -161,8 +161,11 @@ def read_options():
 
     try:
         parsed = vars(parser.parse_args())
+        # print(parsed['optimizer'])
     except IOError as msg:
         parser.error(str(msg))
+    
+    # print(parsed['optimizer'])
 
     # load selected model
     if parsed['dataset'].startswith("synthetic"):  # all synthetic datasets use the same model
@@ -174,13 +177,20 @@ def read_options():
     learner = getattr(mod, 'Model')
 
     # load selected trainer
-    if parsed['optimizer'] in ['l2sgd', 'ditto', 'apfl', 'mapper', 'ewc', 'meta', 'kl']:
+    if parsed['optimizer'] in ['Necrozma', 'l2sgd', 'ditto', 'apfl', 'mapper', 'ewc', 'meta', 'kl']:
+        # print('global model')
         opt_path = 'flearn.trainers_MTL.%s' % parsed['optimizer']
     else:
         opt_path = 'flearn.trainers_global.%s' % parsed['optimizer']
 
-    mod = importlib.import_module(opt_path)
+    print('opt_path:',opt_path)
+    if parsed['optimizer'] != 'Necrozma':
+        mod = importlib.import_module(opt_path)
+    else:
+        from flearn.trainers_MTL import Necrozma as mod
+    print('mod: ', mod)
     optimizer = getattr(mod, 'Server')
+    print('optimizer:', optimizer)
 
     # add selected model parameter
     parsed['model_params'] = MODEL_PARAMS['.'.join(model_path.split('.')[2:])]
