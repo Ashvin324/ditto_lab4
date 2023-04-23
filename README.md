@@ -67,3 +67,6 @@ then open `point_estimation.ipynb`, and directly run the notebook cell by cell t
 * Vehicle, Ditto, without attacks, lambda=1: `bash run_vehicle_clean_ditto_lam1.sh`
 * Vehicle, Ditto, A1 (50% adversaries), lambda=1: `bash run_vehicle_a1_50_ditto_lam1.sh`
 
+# Bonus Content: Necrozma: Another Good Federated learning Algorithm
+
+<img width="200" height="150" src="https://user-images.githubusercontent.com/14993256/109053987-54418f80-76ab-11eb-98bd-2c119d8a61ce.gif">
