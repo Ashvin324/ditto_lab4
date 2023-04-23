@@ -67,6 +67,7 @@ then open `point_estimation.ipynb`, and directly run the notebook cell by cell t
 * Vehicle, Ditto, without attacks, lambda=1: `bash run_vehicle_clean_ditto_lam1.sh`
 * Vehicle, Ditto, A1 (50% adversaries), lambda=1: `bash run_vehicle_a1_50_ditto_lam1.sh`
 
-# Bonus Content: Necrozma: Another Good Federated learning Algorithm
+# Bonus Content: 
+# Necrozma: Another Good Federated learning Algorithm
 
 <img width="200" height="150" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cd63b07c-37ca-4816-b0db-a1cc0472d534/de83mru-0c505b77-ab70-401e-a172-0caf40fb9f34.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2NkNjNiMDdjLTM3Y2EtNDgxNi1iMGRiLWExY2MwNDcyZDUzNFwvZGU4M21ydS0wYzUwNWI3Ny1hYjcwLTQwMWUtYTE3Mi0wY2FmNDBmYjlmMzQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fZFXA8hdC_gMETrdElKVuIKlBGovYIboDmwODfRcVEY">
